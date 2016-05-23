@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import CommentList from './CommentList'
 
 class Article extends Component {
     state = {
@@ -17,6 +18,7 @@ class Article extends Component {
             <div>
                 <h3 onClick = {this.handleClick}>{title}</h3>
                 {textItem}
+                <CommentList comments = {article.comments}/>
             </div>
         )
     }
