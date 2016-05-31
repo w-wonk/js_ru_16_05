@@ -44,7 +44,6 @@ class Article extends Component {
                     <a href="#" onClick={this.handleDelete}>delete me</a>
                 </h3>
                 {textItem}
-                <CommentList comments = {article.comments}/>
             </div>
         )
     }
