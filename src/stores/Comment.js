@@ -14,7 +14,10 @@ export default class Comment extends BasicStore {
                     this._add(payload.comment)
                     this.emitChange()
                     break;
+
             }
         })
     }
 }
+
+export default Comment

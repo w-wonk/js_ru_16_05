@@ -1,13 +1,14 @@
-import { ADD_COMMENT } from '../constants'
 import AppDispatcher from '../dispatcher'
+import { ADD_COMMENT } from '../constants'
 
-export function addComment(articleId, comment) {
-    const id = Math.random() * 100
-    AppDispatcher.dispatch({
+export function addComment(comment, articleId) {
+    const id = Date.now()
+    const action = {
         type: ADD_COMMENT,
         payload: {
             articleId,
-            comment: {...comment, id}
+            comment: {...comment, id }
         }
-    })
+    }
+    AppDispatcher.dispatch(action)
 }

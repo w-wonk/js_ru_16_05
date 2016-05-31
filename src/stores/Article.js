@@ -13,13 +13,13 @@ export default class Article extends BasicStore {
                 case DELETE_ARTICLE:
                     this._delete(payload.id)
                     this.emitChange()
-                    break
-
+                    break;
                 case ADD_COMMENT:
                     const article = this.getById(payload.articleId)
-                    article.comments = (article.comments  || []).concat(payload.comment.id)
+                    article.comments = (article.comments || []).concat(payload.comment.id)
                     this.emitChange()
-                    break
+                    break;
+
             }
         })
     }

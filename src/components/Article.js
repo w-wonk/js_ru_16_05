@@ -3,7 +3,6 @@ import { findDOMNode } from 'react-dom'
 import CommentList from './CommentList'
 import toggleOpen from '../decorators/toggleOpen'
 import { deleteArticle } from '../AC/articles'
-import { commentStore } from '../stores'
 
 class Article extends Component {
     constructor() {
@@ -29,11 +28,10 @@ class Article extends Component {
     render() {
         const { article, isOpen, toggleOpen } = this.props
         if (!article) return <h3>No article</h3>
-
-        const { title, text, comments, id } = article
+        const { title, text, id, comments } = article
         const textItem = isOpen ? <section>
             {text}
-            <div><CommentList article = {article} ref="list" /></div>
+            <div><CommentList article = {article} ref = "list" /></div>
         </section> : null
         return (
             <div>
@@ -42,7 +40,6 @@ class Article extends Component {
                     <a href="#" onClick={this.handleDelete}>delete me</a>
                 </h3>
                 {textItem}
-                <CommentList comments = {article.comments}/>
             </div>
         )
     }
