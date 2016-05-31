@@ -1,32 +1,55 @@
 import React, { PropTypes, Component } from 'react'
+import { findDOMNode } from 'react-dom'
 import CommentList from './CommentList'
+import toggleOpen from '../decorators/toggleOpen'
+import { deleteArticle } from '../AC/articles'
+import { commentStore } from '../stores'
 
 class Article extends Component {
-    state = {
-        isOpen: false,
-        some: 'other'
+    constructor() {
+        super()
+        this.state = {
+            some: ''
+        }
+    }
+
+    componentWillMount() {
+    }
+
+    componentDidMount() {
+    }
+
+    componentWillUnmount() {
+
+    }
+
+    componentDidUpdate() {
     }
 
     render() {
-        const { article } = this.props
+        const { article, isOpen, toggleOpen } = this.props
         if (!article) return <h3>No article</h3>
 
-        const { title, text, id } = article
-        const { isOpen } = this.state
-        const textItem = isOpen ? <section>{text}</section> : null
+        const { title, text, comments, id } = article
+        const textItem = isOpen ? <section>
+            {text}
+            <div><CommentList article = {article} ref="list" /></div>
+        </section> : null
         return (
             <div>
-                <h3 onClick = {this.handleClick}>{title}</h3>
+                <h3 onClick = {toggleOpen} ref="title">
+                    {title}
+                    <a href="#" onClick={this.handleDelete}>delete me</a>
+                </h3>
                 {textItem}
                 <CommentList comments = {article.comments}/>
             </div>
         )
     }
 
-    handleClick = (ev) => {
-        this.setState({
-            isOpen : !this.state.isOpen
-        })
+    handleDelete = (ev) => {
+        ev.preventDefault()
+        deleteArticle(this.props.article.id)
     }
 }
 
@@ -35,8 +58,12 @@ Article.propTypes = {
     article: PropTypes.shape({
         title: PropTypes.string.isRequired,
         text: PropTypes.string,
-        id: PropTypes.number.isRequired
-    })
+        id: PropTypes.string.isRequired
+    }),
+
+    //From toggleOpen decorator
+    isOpen: PropTypes.bool.isRequired,
+    toggleOpen: PropTypes.func.isRequired
 }
 
 export default Article
