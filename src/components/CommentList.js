@@ -9,13 +9,20 @@ class CommentList extends Component {
         article: PropTypes.object.isRequired
     };
 
+    static contextTypes = {
+        router: PropTypes.object,
+        user: PropTypes.string
+    }
+
     componentWillReceiveProps({ isOpen, article }) {
         if (isOpen && !article.loadedComments && !article.loadingComments) loadComments({ id: article.id })
+        console.log('---', 'context', this.context)
     }
 
     render() {
         return (
             <div>
+                <h3>Hello {this.context.user}</h3>
                 {this.getToggler()}
                 {this.getList()}
             </div>

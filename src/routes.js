@@ -1,17 +1,31 @@
-import { Router, Route, hashHistory, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, Redirect, IndexRedirect, hashHistory, browserHistory } from 'react-router'
 import React from 'react'
-import ArticleIndex from './RouteHandlers/ArticlesIndex'
+import ArticleRoot from './RouteHandlers/ArticlesRoot'
+import ArticleIndex from './RouteHandlers/ArticleIndex'
 import ArticlePage from './RouteHandlers/ArticlePage'
-import CommentsIndex from './RouteHandlers/CommentsIndex'
+import ArticleNew from './RouteHandlers/ArticleNew'
+import CommentsRoot from './RouteHandlers/CommentsRoot'
 import CommentsPage from './RouteHandlers/CommentsPage'
+import NotFound from './RouteHandlers/NotFound'
+
+export const history = browserHistory
 
 export default (
-    <Router history = {browserHistory}>
-        <Route path = "/articles" component = {ArticleIndex}>
+    <Router history = {history}>
+        <Redirect from = "/" to = "/articles"/>
+        <Route path = "/articles" component = {ArticleRoot}
+            onEnter = {(routes, replace) => console.log(' entering articles ', replace)}
+            onLeave = {(...args) => console.log(' leaving articles ', ...args)}
+        >
+            <IndexRoute component = {ArticleIndex}/>
+            <Route path = "new" component = {ArticleNew} />
             <Route path = ":id" component = {ArticlePage} />
+            <Route path = "/page/:id" component = {ArticlePage} />
         </Route>
-        <Route path = "/comments" component = {CommentsIndex}>
-          <Route path = ":page" component = {CommentsPage} />
+        <Route path = "/comments" component = {CommentsRoot} >
+            <IndexRedirect to = "1"/>
+            <Route path = ":page" component = {CommentsPage} />
         </Route>
+        <Route path = "*" component = {NotFound} />
     </Router>
 )
